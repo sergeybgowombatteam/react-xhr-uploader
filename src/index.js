@@ -155,6 +155,9 @@ class XHRUploader extends Component {
         }
       };
       xhr.open(this.props.method, this.props.url, true);
+      if (this.props.headers && this.props.headers.length) {
+          this.props.headers.forEach(item => xhr.setRequestHeader(item.header, item.value))
+      }
       xhr.send(formData);
     }
   }
@@ -177,6 +180,9 @@ class XHRUploader extends Component {
       };
 
       xhr.open(this.props.method, this.props.url, true);
+      if (this.props.headers && this.props.headers.length) {
+          this.props.headers.forEach(item => xhr.setRequestHeader(item.header, item.value))
+      }
       xhr.send(formData);
       this.xhrs[file.index] = xhr;
     }
@@ -354,6 +360,10 @@ XHRUploader.propTypes = {
   chunkSize: PropTypes.number,
   maxFiles: PropTypes.number,
   clearTimeOut: PropTypes.number,
+  headers: PropTypes.shape({
+      header: PropTypes.string,
+      value: PropTypes.string
+    }),
   filesetTransitionName: PropTypes.string,
   styles: PropTypes.shape({}),
   cancelIconClass: PropTypes.string,
@@ -375,6 +385,7 @@ XHRUploader.defaultProps = {
   maxFiles: 1,
   encrypt: false,
   clearTimeOut: 3000,
+  headers: [],
   filesetTransitionName: 'fileset',
   cancelIconClass: 'fa fa-close',
   completeIconClass: 'fa fa-check',
